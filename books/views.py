@@ -9,17 +9,15 @@ def detail_book(request, id):
     detail_book = get_object_or_404(Book, id=id)
     return render(request, 'books/detail_book.html', {'detail_book': detail_book})
 
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Book
+def add_book(request):
+    return render(request, 'books/add_book.html') # Asegúrate de crear este HTML después
 
-# ... tus otras vistas ...
+def edit_book(request, id):
+    # Por ahora solo que cargue una página básica
+    book = get_object_or_404(Book, id=id)
+    return render(request, 'books/edit_book.html', {'book': book})
 
-# En books/views.py
-def add_book(request):  # <--- Verifica que el nombre sea este exactamente
-    if request.method == 'POST':
-        title = request.POST.get('title')
-        author = request.POST.get('author')
-        image = request.FILES.get('image')
-        Book.objects.create(title=title, author=author, image=image)
-        return redirect('home')
-    return render(request, 'books/home.html')
+def delete_book(request, id):
+    book = get_object_or_404(Book, id=id)
+    book.delete()
+    return redirect('home')
